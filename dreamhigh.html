@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dream high</title>
+	<style type="text/css">
+	* { padding: 0; margin: 0; }
+	body {
+		width: 960px;
+		margin: 0 auto;
+	}
+	</style>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+
+	var getRandomColor = function(){
+  	return  '#' +
+    (function(color){
+    	return (color +=  '0123456789abcdef'[Math.floor(Math.random()*16)])
+      	&& (color.length == 6) ?  color : arguments.callee(color);
+  		})('');
+	}
+
+	function start2Transparent(component){
+		component.onMouseHover = true;
+		var timer = setInterval(function(){
+			var opac = parseFloat(window.getComputedStyle(component,null).getPropertyValue("opacity"));
+			if(opac <= 0.5 || component.onMouseHover != true){
+				clearInterval(timer);
+			} else {
+				component.style.opacity = opac - 0.1;
+				// alert(component.onMouseHover);
+				// console.log(component.id + "every change" + component.style.opacity);
+			}
+		},30);
+	}
+
+	function start2Opacity(component) {
+		component.onMouseHover = false;
+		var timer = setInterval(function(){
+			var opac = parseFloat(window.getComputedStyle(component,null).getPropertyValue("opacity"));
+			if(opac < 1.0){
+				component.style.opacity = opac + 0.1;
+				// alert(component);
+				// console.log(component.id + "every change" + component.style.opacity);
+			} else {
+				clearInterval(timer);
+			}
+		},30);
+	}
+
+	var cssString0 = "width: 120px; height: 120px; background-color:";
+	var cssString1 = ";float:left;"
+	
+	for (var i = 0; i <= 47; i++) {
+		var ele = document.createElement("div");
+		ele.style.cssText = cssString0 + getRandomColor() + cssString1;
+		ele.setAttribute("id", "box"+i);
+		document.getElementsByTagName("body")[0].appendChild(ele);//getElementsByName 获取的是一个数组，需要用[0]	
+	}
+
+	for(var j = 0; j<=47; j++) {
+		var id = document.getElementById("box" + j); 
+		id.addEventListener("click", function() {
+			var thingsToDo = prompt("Honey，想要做什么呢？");
+			if (thingsToDo != null) {
+				// var ele = document.createElement("div");
+        		this.innerHTML = thingsToDo;
+        		// this.appendChild(ele);
+        		// console.log(id.innerHTML);
+        	}
+        	var boxCssString = "font:14px; color:white; text-align:center; line-height:120px;";
+        	this.style.cssText += boxCssString;
+        	// console.log(this.style.cssText);
+		},false);
+
+		id.addEventListener("mouseover", function(){
+			start2Transparent(this);//调用startChange
+		}, false);
+		id.addEventListener("mouseleave", function(){
+			start2Opacity(this);
+		}, false);
+
+	}
+</script>
+</html>
